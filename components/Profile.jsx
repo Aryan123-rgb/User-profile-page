@@ -1,21 +1,6 @@
 export default function Profile () {
     return (
         <>
-        {/**
-         * This is the main section of the above page i want you to add a two color background mix of blue and white and the details of the profile should be structured as below
-         * 
-         * 1. Profile Image
-         * 2. A box in which name email phone number line by line
-         * 3. Another box in which there is about me
-         * 4. Skills section
-         * 
-         * 1. A box in right side of profile image a box which contains proffesional info
-         * 2. A box in right side of name email phone number box which contains certifications
-         * 3. An experience box in right side 
-         * 4. An Eductions box
-         * 
-         * Make sure to use of lots of dummy data to clearly see the ui 
-         */}
           <div className="flex h-screen  bg-gradient-to-b from-blue-500 to-white">
             {/* Profile Info */}
             <div className="w-2/3 p-8 ">
