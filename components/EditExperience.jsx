@@ -42,6 +42,12 @@ export default function EditExperience({
     setCompanyNameInput("");
   };
 
+  const handleRemoveExperience = () => {
+    const updatedExperience = experiences.filter((exp) => exp !== experience);
+    setExperiences(updatedExperience);
+    setIsEditingExperience(false);
+  };
+
   return (
     <>
       <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
@@ -87,13 +93,13 @@ export default function EditExperience({
               onClick={handleExperienceSave}
               className="text-white bg-[#341f97] py-2 px-8 rounded-[2rem]"
             >
-              Add Experience
+              Save
             </button>
             <button
-              onClick={() => setIsEditingExperience(false)}
-              className="text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem] ml-4"
+              onClick={handleRemoveExperience}
+              className="text-white bg-[red] py-2 px-8 rounded-[2rem] ml-4"
             >
-              Cancel
+              Remove
             </button>
           </div>
         </div>
