@@ -15,9 +15,11 @@ export default function Profile() {
   const [isEditingSkills, setIsEditingSkills] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isAddingExperience, setIsAddingExperience] = useState(false);
+  const [isEditingExperience, setIsEditingExperience] = useState(false);
 
   const [editingfield, setEditingField] = useState("");
   const [editingfieldValue, setEditingFieldValue] = useState("");
+  const [editingExperience, setEditingExperience] = useState("");
 
   const handleEditBio = (field) => {
     if (field === "name") {
@@ -64,7 +66,6 @@ export default function Profile() {
     "MongoDB",
   ]);
 
-  // Dummy data for experience
   const [experiences, setExperiences] = useState([
     {
       startYear: "2019",
@@ -81,6 +82,22 @@ export default function Profile() {
       companyName: "CodeCorp",
     },
   ]);
+
+  const handleEditExperience = (experience) => {
+    setEditingExperience(experience);
+    setIsEditingExperience(true);
+  };
+
+  const [educations, setEducations] = useState([
+    {
+      university: "IIIT HYDERABAD",
+      degree: "Bachelor of Computer Science",
+      year: "2015-2019",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. In modi quam doloremque, ipsam nesciunt minima, ducimus nobis sunt alias iure et culpa blanditiis autem cupiditate laborum pariatur ratione rerum dolores!",
+    },
+  ]);
+
   return (
     <>
       <div className="flex h-screen bg-white">
@@ -250,7 +267,7 @@ export default function Profile() {
                 </p>
                 <button
                   className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-1 px-4 rounded-[2rem] text-sm"
-                  onClick={() => setIsAddingExperience(true)}
+                  onClick={() => handleEditExperience(experience)}
                 >
                   Edit
                 </button>
@@ -260,25 +277,36 @@ export default function Profile() {
 
           {/* Education */}
           <div className="bg-white p-4 relative mb-6">
-            <h3 className="text-2xl font-semibold mb-2">Education</h3>
-            <div className="border-2 border-[#dfe6e9] rounded-lg p-4 px-4 mt-6">
-              <p className="text-[#341f97] font-[400] text-3xl mb-[10px]">
-                IIIT HYDERABAD
-              </p>
-              <p className="text-black text-xl">
-                Bachelor of Computer Science{" "}
-                <span className="ml-44">2015-2019</span>{" "}
-              </p>
-              <p className="text-gray-600 mt-2">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Tempore aliquid minus exercitationem recusandae atque, quia et
-                mollitia doloremque. Beatae distinctio nihil eligendi enim
-                maiores exercitationem quam quisquam quidem aliquid repellendus?
-              </p>
-            </div>
-            <button className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
-              Edit
-            </button>
+            <h3 className="text-2xl font-semibold mb-2 flex justify-between">
+              Education
+              <button
+                className="text-black bg-[#ecf0f1] py-1 px-4 rounded-[2rem] text-sm font-normal"
+                // onClick={handleAddEducation}
+              >
+                Add Education
+              </button>
+            </h3>
+            {educations.map((education, index) => (
+              <div
+                key={index}
+                className="border-2 border-[#dfe6e9] rounded-lg p-4 px-4 mt-6 relative"
+              >
+                <p className="text-[#341f97] font-[400] text-3xl mb-[10px]">
+                  {education.university}
+                </p>
+                <p className="text-black text-xl">
+                  {education.degree}{" "}
+                  <span className="ml-44">{education.year}</span>{" "}
+                </p>
+                <p className="text-gray-600 mt-2">{education.description}</p>
+                <button
+                  className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-4 rounded-[2rem]"
+                  // onClick={() => handleEditEducation(education)}
+                >
+                  Edit
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -322,6 +350,14 @@ export default function Profile() {
           setIsAddingExperience={setIsAddingExperience}
           experiences={experiences}
           setExperiences={setExperiences}
+        />
+      ) : null}
+      {isEditingExperience === true ? (
+        <EditExperience
+          setIsEditingExperience={setIsEditingExperience}
+          experience={editingExperience}
+          setExperiences={setExperiences}
+          experiences={experiences}
         />
       ) : null}
     </>

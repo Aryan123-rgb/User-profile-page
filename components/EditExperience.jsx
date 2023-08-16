@@ -4,14 +4,17 @@ import { useState } from "react";
 
 export default function EditExperience({
   setIsEditingExperience,
+  experience,
+  setExperiences,
   experiences,
-  setExperiences
 }) {
-  const [startYearInput, setStartYearInput] = useState("2023");
-  const [endYearInput, setEndYearInput] = useState("2024");
-  const [jobRoleInput, setJobRoleInput] = useState("Full Stack developer");
-  const [jobTypeInput, setJobTypeInput] = useState("Internship");
-  const [companyNameInput, setCompanyNameInput] = useState("Google");
+  const [startYearInput, setStartYearInput] = useState(experience.startYear);
+  const [endYearInput, setEndYearInput] = useState(experience.endYear);
+  const [jobRoleInput, setJobRoleInput] = useState(experience.jobRole);
+  const [jobTypeInput, setJobTypeInput] = useState(experience.jobType);
+  const [companyNameInput, setCompanyNameInput] = useState(
+    experience.companyName
+  );
 
   const handleExperienceSave = () => {
     const newExperience = {
@@ -19,10 +22,14 @@ export default function EditExperience({
       endYear: endYearInput,
       jobRole: jobRoleInput,
       jobType: jobTypeInput,
-      companyName: companyNameInput
+      companyName: companyNameInput,
     };
 
-    setExperiences([newExperience,...experiences])
+    const updatedExperiences = experiences.map((experience) =>
+      experience === experience ? newExperience : experience
+    );
+
+    setExperiences(updatedExperiences);
     resetInputs();
     setIsEditingExperience(false);
   };
