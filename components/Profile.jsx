@@ -4,6 +4,7 @@ import { useState } from "react";
 import EditSkills from "./EditSkills";
 import EditExperience from "./EditExperience";
 import AddExperience from "./AddExperience";
+import AddEducation from "./AddEducation";
 
 export default function Profile() {
   const [name, setName] = useState("Vishnu Swaroop");
@@ -16,6 +17,7 @@ export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
   const [isAddingExperience, setIsAddingExperience] = useState(false);
   const [isEditingExperience, setIsEditingExperience] = useState(false);
+  const [isAddingEducation,setIsAddingEducation] = useState(false);
 
   const [editingfield, setEditingField] = useState("");
   const [editingfieldValue, setEditingFieldValue] = useState("");
@@ -281,7 +283,7 @@ export default function Profile() {
               Education
               <button
                 className="text-black bg-[#ecf0f1] py-1 px-4 rounded-[2rem] text-sm font-normal"
-                // onClick={handleAddEducation}
+                onClick={()=>setIsAddingEducation(true)}
               >
                 Add Education
               </button>
@@ -294,10 +296,13 @@ export default function Profile() {
                 <p className="text-[#341f97] font-[400] text-3xl mb-[10px]">
                   {education.university}
                 </p>
-                <p className="text-black text-xl">
+                <div className="flex justify-between">
+                <p className="text-black text-xl ">
                   {education.degree}{" "}
-                  <span className="ml-44">{education.year}</span>{" "}
+                  
                 </p>
+                <span className="text-black text-xl">{education.year}</span>{" "}
+                </div>
                 <p className="text-gray-600 mt-2">{education.description}</p>
                 <button
                   className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-4 rounded-[2rem]"
@@ -358,6 +363,13 @@ export default function Profile() {
           experience={editingExperience}
           setExperiences={setExperiences}
           experiences={experiences}
+        />
+      ) : null}
+      {isAddingEducation === true ? (
+        <AddEducation 
+          setIsAddingEducation={setIsAddingEducation}
+          setEducations={setEducations}
+          educations={educations}
         />
       ) : null}
     </>
