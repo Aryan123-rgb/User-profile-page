@@ -122,7 +122,7 @@ export default function Signup() {
               id="skills"
               name="skills"
               value={skills}
-              onChange={handleSkillsChange}
+              onChange={(e)=>setSkills(e.target.value)}
               className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:ring focus:ring-indigo-200"
               placeholder="Enter your skills"
             />

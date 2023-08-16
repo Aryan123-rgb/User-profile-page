@@ -1,20 +1,86 @@
+"use client";
+
+import { useState } from "react";
+import EditSkills from "./EditSkills";
+import EditExperience from "./EditExperience";
+import AddExperience from "./AddExperience";
+
 export default function Profile() {
-  const DoubleStarIcon = () => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
-      viewBox="0 0 48 48"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M24 4 L30 17 L45 17 L33 29 L36 44 L24 35 L12 44 L15 29 L3 17 L18 17 Z"></path>
-      {/* <path d="M24 9 L27 0 L21 0 Z" fill="currentColor" /> */}
-    </svg>
+  const [name, setName] = useState("Vishnu Swaroop");
+  const [email, setEmail] = useState("vishnu@oruphones.com");
+  const [phone, setPhone] = useState("+91 8955225575");
+  const [about, setAbout] = useState(
+    `Lorem ipsum dolor sit amet consectetur adipisicing elit.Voluptates ipsa dolore maxime quae unde eos, molestias quisquam quasi minima tempore fugit, autem fugiat, quidem repellendus explicabo vitae doloribus quas expedita?`
   );
+  const [isEditingSkills, setIsEditingSkills] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isEditingExperience, setIsEditingExperience] = useState(false);
+
+  const [editingfield, setEditingField] = useState("");
+  const [editingfieldValue, setEditingFieldValue] = useState("");
+
+  const handleEditBio = (field) => {
+    if (field === "name") {
+      setEditingField("Your Name");
+      setEditingFieldValue(name);
+    } else if (field === "email") {
+      setEditingField("Email");
+      setEditingFieldValue(email);
+    } else if (field === "phone") {
+      setEditingField("Phone");
+      setEditingFieldValue(phone);
+    } else if (field === "about") {
+      setEditingField("About");
+      setEditingFieldValue(about);
+    }
+    setIsEditing(true);
+  };
+
+  const handleSave = (field) => {
+    if (field === "Your Name") {
+      setName(editingfieldValue);
+    } else if (field === "Email") {
+      setEmail(editingfieldValue);
+    } else if (field === "Phone") {
+      setPhone(editingfieldValue);
+    } else if (field === "About") {
+      setAbout(editingfieldValue);
+    }
+    setIsEditing(false);
+  };
+
+  const [skills, setskills] = useState([
+    "Javascript",
+    "ReactJS",
+    "NodeJS",
+    "TypeScript",
+    "Java",
+    "Python",
+    "C++",
+    "HTML",
+    "CSS",
+    "ExpressJS",
+    "Mongoose",
+    "MongoDB",
+  ]);
+
+  // Dummy data for experience
+  const [experiences, setExperiences] = useState([
+    {
+      startYear: "2019",
+      endYear: "2021",
+      jobRole: "Frontend Developer",
+      jobType: "Full-time",
+      companyName: "TechCo",
+    },
+    {
+      startYear: "2022",
+      endYear: "2023",
+      jobRole: "Backend Developer",
+      jobType: "Contract",
+      companyName: "CodeCorp",
+    },
+  ]);
   return (
     <>
       <div className="flex h-screen bg-white">
@@ -32,31 +98,36 @@ export default function Profile() {
             <div className="flex justify-between items-end mb-[2.5rem]">
               <div className="flex-col items-center">
                 <h3 className="text-xl mb-2 text-[#636e72]">Your Name</h3>
-                <p className="text-[#2d3436] font-semibold text-2xl">
-                  Vishnu Swaroop
-                </p>
+                <p className="text-[#2d3436] font-semibold text-2xl">{name}</p>
               </div>
-              <button className="text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
+              <button
+                className="text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]"
+                onClick={() => handleEditBio("name")}
+              >
                 Edit
               </button>
             </div>
             <div className="flex justify-between items-end mb-[2.5rem]">
               <div className="flex-col items-center">
                 <h3 className="text-xl mb-2 text-[#636e72]">Email</h3>
-                <p className="text-[#2d3436] font-semibold text-2xl">
-                  vishnu@oruphones.com
-                </p>
+                <p className="text-[#2d3436] font-semibold text-2xl">{email}</p>
               </div>
-              <button className="text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
+              <button
+                className="text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]"
+                onClick={() => handleEditBio("email")}
+              >
                 Edit
               </button>
             </div>
             <div className="flex justify-between items-end">
               <div className="flex-col items-center">
                 <h3 className="text-xl font-semibold mb-2">Phone Number</h3>
-                <p className="text-gray-600">+91 8955225575</p>
+                <p className="text-gray-600">{phone}</p>
               </div>
-              <button className="text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
+              <button
+                className="text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]"
+                onClick={() => handleEditBio("phone")}
+              >
                 Edit
               </button>
             </div>
@@ -68,12 +139,13 @@ export default function Profile() {
               About <span className="text-[#341f97]">Vishnu</span>{" "}
             </h3>
             <p className="text-gray-600 mt-[2rem] text-[18px] w-full">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Voluptates ipsa dolore maxime quae unde eos, molestias quisquam
-              quasi minima tempore fugit, autem fugiat, quidem repellendus
-              explicabo vitae doloribus quas expedita?
+              {" "}
+              {about}{" "}
             </p>
-            <button className="absolute right-4 top-5 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
+            <button
+              className="absolute right-4 top-5 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]"
+              onClick={() => handleEditBio("about")}
+            >
               Edit
             </button>
           </div>
@@ -82,21 +154,20 @@ export default function Profile() {
           <div className="bg-white p-4 border-2 border-[#dfe6e9] rounded-lg relative">
             <h3 className="text-3xl font-semibold mb-2">Skills</h3>
             <div className="flex flex-wrap">
-              <div className="bg-gray-100 text-gray-600 p-2 m-1 rounded-lg">
-                JavaScript
-              </div>
-              <div className="bg-gray-100 text-gray-600 p-2 m-1 rounded-lg">
-                React
-              </div>
-              <div className="bg-gray-100 text-gray-600 p-2 m-1 rounded-lg">
-                Node.js
-              </div>
-              <div className="bg-gray-100 text-gray-600 p-2 m-1 rounded-lg">
-                Typescript
-              </div>
+              {skills.map((skill, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-100 text-gray-600 p-2 m-1 rounded-lg"
+                >
+                  {skill}
+                </div>
+              ))}
               {/* ... Add more skills */}
             </div>
-            <button className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
+            <button
+              className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]"
+              onClick={() => setIsEditingSkills(true)}
+            >
               Edit
             </button>
           </div>
@@ -154,19 +225,37 @@ export default function Profile() {
 
           {/* Experience */}
           <div className="bg-white p-4 relative mb-6">
-            <h3 className="text-2xl font-semibold mb-2">Experience</h3>
-            <div className="border-2 border-[#dfe6e9] rounded-lg p-2 px-4 mt-4">
-              <p className="text-black font-[400] text-xl mb-[5px]">
-                7 years (2014-2021) <span className="ml-80">Full time</span>
-              </p>
-              <p className="text-gray-600 ">
-                Flipkart{" "}
-                <span className="ml-[23rem]">--Full Stack Developer</span>
-              </p>
-            </div>
-            <button className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
-              Edit
-            </button>
+            <h3 className="text-2xl font-semibold mb-2 flex justify-between">
+              Experience
+              <button
+                className="text-black bg-[#ecf0f1] py-1 px-4 rounded-[2rem] text-sm font-normal"
+                onClick={() => setIsEditingExperience(true)}
+              >
+                Add Experience
+              </button>
+            </h3>
+            {experiences.map((experience, index) => (
+              <div
+                key={index}
+                className="border-2 border-[#dfe6e9] rounded-lg p-2 px-4 mt-4 relative"
+              >
+                <p className="text-black font-[400] text-xl mb-[5px]">
+                  {experience.endYear - experience.startYear} years (
+                  {experience.startYear}-{experience.endYear}){" "}
+                  <span className="ml-4">{experience.jobType}</span>
+                </p>
+                <p className="text-gray-600">
+                  {experience.companyName}
+                  <span className="ml-4">--{experience.jobRole}</span>
+                </p>
+                <button
+                  className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-1 px-4 rounded-[2rem] text-sm"
+                  onClick={() => setIsEditingExperience(true)}
+                >
+                  Edit
+                </button>
+              </div>
+            ))}
           </div>
 
           {/* Education */}
@@ -181,7 +270,10 @@ export default function Profile() {
                 <span className="ml-44">2015-2019</span>{" "}
               </p>
               <p className="text-gray-600 mt-2">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore aliquid minus exercitationem recusandae atque, quia et mollitia doloremque. Beatae distinctio nihil eligendi enim maiores exercitationem quam quisquam quidem aliquid repellendus?
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Tempore aliquid minus exercitationem recusandae atque, quia et
+                mollitia doloremque. Beatae distinctio nihil eligendi enim
+                maiores exercitationem quam quisquam quidem aliquid repellendus?
               </p>
             </div>
             <button className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
@@ -190,6 +282,48 @@ export default function Profile() {
           </div>
         </div>
       </div>
+      {isEditing && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg w-[30rem] max-h-[80vh] overflow-auto">
+            <h3 className="text-2xl font-semibold mb-2">Edit Details</h3>
+            <h4 className="mt-4 text-xl mb-2">{editingfield}</h4>
+            <textarea
+              value={editingfieldValue}
+              onChange={(e) => setEditingFieldValue(e.target.value)}
+              className="border-2 border-gray-300 p-2 mb-8 rounded-lg w-full resize-none"
+              rows={editingfield === "About" ? "8" : "1"}
+            />
+            <div className="flex justify-between">
+              <button
+                className="text-white bg-[#341f97] py-2 px-8 rounded-[2rem]"
+                onClick={() => handleSave(editingfield)}
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setIsEditing(false)}
+                className="text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem] ml-4"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {isEditingSkills === true ? (
+        <EditSkills
+          setIsEditingSkills={setIsEditingSkills}
+          skills={skills}
+          setskills={setskills}
+        />
+      ) : null}
+      {isEditingExperience === true ? (
+        <AddExperience
+          setIsEditingExperience={setIsEditingExperience}
+          experiences={experiences}
+          setExperiences={setExperiences}
+        />
+      ) : null}
     </>
   );
 }
