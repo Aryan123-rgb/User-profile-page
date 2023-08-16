@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function AddExperience({
-  setIsEditingExperience,
+  setIsAddingExperience,
   experiences,
   setExperiences
 }) {
@@ -24,7 +24,7 @@ export default function AddExperience({
 
     setExperiences([newExperience,...experiences])
     resetInputs();
-    setIsEditingExperience(false);
+    setIsAddingExperience(false);
   };
 
   const resetInputs = () => {
@@ -83,7 +83,7 @@ export default function AddExperience({
               Add Experience
             </button>
             <button
-              onClick={() => setIsEditingExperience(false)}
+              onClick={() => setIsAddingExperience(false)}
               className="text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem] ml-4"
             >
               Cancel

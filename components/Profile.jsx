@@ -14,7 +14,7 @@ export default function Profile() {
   );
   const [isEditingSkills, setIsEditingSkills] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isEditingExperience, setIsEditingExperience] = useState(false);
+  const [isAddingExperience, setIsAddingExperience] = useState(false);
 
   const [editingfield, setEditingField] = useState("");
   const [editingfieldValue, setEditingFieldValue] = useState("");
@@ -229,7 +229,7 @@ export default function Profile() {
               Experience
               <button
                 className="text-black bg-[#ecf0f1] py-1 px-4 rounded-[2rem] text-sm font-normal"
-                onClick={() => setIsEditingExperience(true)}
+                onClick={() => setIsAddingExperience(true)}
               >
                 Add Experience
               </button>
@@ -250,7 +250,7 @@ export default function Profile() {
                 </p>
                 <button
                   className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-1 px-4 rounded-[2rem] text-sm"
-                  onClick={() => setIsEditingExperience(true)}
+                  onClick={() => setIsAddingExperience(true)}
                 >
                   Edit
                 </button>
@@ -317,9 +317,9 @@ export default function Profile() {
           setskills={setskills}
         />
       ) : null}
-      {isEditingExperience === true ? (
+      {isAddingExperience === true ? (
         <AddExperience
-          setIsEditingExperience={setIsEditingExperience}
+          setIsAddingExperience={setIsAddingExperience}
           experiences={experiences}
           setExperiences={setExperiences}
         />
