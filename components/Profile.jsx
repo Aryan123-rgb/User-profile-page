@@ -156,9 +156,13 @@ export default function Profile() {
           <div className="bg-white p-4 relative mb-6">
             <h3 className="text-2xl font-semibold mb-2">Experience</h3>
             <div className="border-2 border-[#dfe6e9] rounded-lg p-2 px-4 mt-4">
-              <p className="text-black font-[400] text-xl mb-[5px]">7 years  (2014-2021) <span className="ml-80">Full time</span>
+              <p className="text-black font-[400] text-xl mb-[5px]">
+                7 years (2014-2021) <span className="ml-80">Full time</span>
               </p>
-              <p className="text-gray-600 ">Flipkart <span className="ml-[23rem]">--Full Stack Developer</span></p>
+              <p className="text-gray-600 ">
+                Flipkart{" "}
+                <span className="ml-[23rem]">--Full Stack Developer</span>
+              </p>
             </div>
             <button className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
               Edit
@@ -166,12 +170,21 @@ export default function Profile() {
           </div>
 
           {/* Education */}
-          <div className="bg-gray-100 p-4 rounded-lg relative">
-            <h3 className="text-xl font-semibold mb-2">Education</h3>
-            <p className="text-gray-600">
-              Bachelor of Computer Science - University of ABC (2015)
-            </p>
-            <button className="absolute right-4 top-4 text-blue-500 hover:text-blue-600">
+          <div className="bg-white p-4 relative mb-6">
+            <h3 className="text-2xl font-semibold mb-2">Education</h3>
+            <div className="border-2 border-[#dfe6e9] rounded-lg p-4 px-4 mt-6">
+              <p className="text-[#341f97] font-[400] text-3xl mb-[10px]">
+                IIIT HYDERABAD
+              </p>
+              <p className="text-black text-xl">
+                Bachelor of Computer Science{" "}
+                <span className="ml-44">2015-2019</span>{" "}
+              </p>
+              <p className="text-gray-600 mt-2">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore aliquid minus exercitationem recusandae atque, quia et mollitia doloremque. Beatae distinctio nihil eligendi enim maiores exercitationem quam quisquam quidem aliquid repellendus?
+              </p>
+            </div>
+            <button className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
               Edit
             </button>
           </div>
