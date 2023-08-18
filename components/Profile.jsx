@@ -163,7 +163,7 @@ export default function Profile() {
           {/* About Me */}
           <div className="bg-white p-6 rounded-lg border-2 border-[#dfe6e9] relative mb-6 mt-6">
             <h3 className="text-3xl font-semibold mb-2">
-              About <span className="text-[#341f97]">Vishnu</span>{" "}
+              About <span className="text-[#341f97]">Nishant</span>{" "}
             </h3>
             <p className="text-gray-600 mt-[2rem] text-[18px] w-full">
               {" "}

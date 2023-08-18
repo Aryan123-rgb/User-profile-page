@@ -3,18 +3,27 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Signup() {
+  const [name,setName] = useState('');
   const [phone, setPhone] = useState("+91 ");
   const [skills, setSkills] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [suggestedSkills, setSuggestedSkills] = useState([
     "JavaScript",
-    "React",
-    "Node.js",
+    "ReactJS",
+    "NodeJs",
     "Python",
     "HTML",
     "CSS",
     "Java",
-    // Add more suggested skills here
+    "TypeScript",
+    "ExpressJS",
+    "MongoDB",
+    "NextJS",
+    "Go",
+    "C++",
+    "Docker",
+    "Kubernetes",
+    "Firebase",
   ]);
 
   const handleSkillsChange = (e) => {
@@ -58,6 +67,7 @@ export default function Signup() {
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:ring focus:ring-indigo-200"
                 placeholder="Enter your name"
                 required
+
               />
             </div>
             <div className="w-full sm:w-1/2 pl-2 mt-4 sm:mt-0">
