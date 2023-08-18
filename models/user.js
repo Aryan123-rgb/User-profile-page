@@ -10,6 +10,6 @@ const UserSchema = new Schema({
   skills: [{ type: String }],
 });
 
-const UserModel = model("User", UserSchema);
+const UserModel = mongoose.models.User || model("User", UserSchema);
 
 export default UserModel;
