@@ -40,7 +40,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-grow p-6 ">{/* Your main content goes here */}
+      <div className="flex-grow p-6 ">
       <Profile/>
       </div>
     </div>

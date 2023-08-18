@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Login() {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
-
+  const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -15,10 +16,12 @@ export default function Login() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email,password }),
+      cache:"no-cache"
     });
     if (response.ok) {
       const data = await response.json();
       console.log(data);
+      router.push(`/profile/${data?._id}`)
     } else console.log("not ok");
   };
   return (

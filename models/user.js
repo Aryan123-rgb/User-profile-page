@@ -4,9 +4,12 @@ const UserSchema = new Schema({
   name: { type: String },
   email: { type: String },
   password: { type: String },
-  pic: { type: String },
+  phone: { type: String },
+  about: { type: String },
+  certifications: { type: String },
+  skills: [{ type: String }],
 });
 
 const UserModel = model("User", UserSchema);
 
-export default UserModel
+export default UserModel;
