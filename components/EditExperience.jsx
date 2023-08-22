@@ -16,7 +16,7 @@ export default function EditExperience({
     experience.companyName
   );
 
-  const handleExperienceSave = () => {
+  const handleExperienceSave = async() => {
     const newExperience = {
       startYear: startYearInput,
       endYear: endYearInput,
@@ -25,8 +25,30 @@ export default function EditExperience({
       companyName: companyNameInput,
     };
 
-    const updatedExperiences = experiences.map((experience) =>
-      experience === experience ? newExperience : experience
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/experience`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: experience?._id,
+          startYear: startYearInput,
+          endYear: endYearInput,
+          jobRole: jobRoleInput,
+          jobType: jobTypeInput,
+          companyName: companyNameInput,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    const updatedExperiences = experiences.map((exp) =>
+      exp === experience ? newExperience : exp
     );
 
     setExperiences(updatedExperiences);

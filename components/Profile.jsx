@@ -17,6 +17,7 @@ export default function Profile() {
   const [skills, setskills] = useState([]);
   const [certifications, setCertifications] = useState("");
   const [educations, setEducations] = useState([]);
+  const [experiences, setExperiences] = useState([]);
 
   const getUserInfo = async () => {
     try {
@@ -63,9 +64,30 @@ export default function Profile() {
     }
   }
 
+  const getExperience = async() => {
+    try {
+      const response = await fetch("http://localhost:3000/api/experience", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+        cache: "no-cache",
+      });
+      if(response.ok){
+        const data = await response.json();
+
+        setExperiences(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getUserInfo();
     getEducation();
+    getExperience();
   }, []);
 
   const [isEditingSkills, setIsEditingSkills] = useState(false);
@@ -135,23 +157,6 @@ export default function Profile() {
 
     setIsEditing(false);
   };
-
-  const [experiences, setExperiences] = useState([
-    {
-      startYear: "2019",
-      endYear: "2021",
-      jobRole: "Frontend Developer",
-      jobType: "Full-time",
-      companyName: "TechCo",
-    },
-    {
-      startYear: "2022",
-      endYear: "2023",
-      jobRole: "Backend Developer",
-      jobType: "Contract",
-      companyName: "CodeCorp",
-    },
-  ]);
 
   const handleEditExperience = (experience) => {
     setEditingExperience(experience);

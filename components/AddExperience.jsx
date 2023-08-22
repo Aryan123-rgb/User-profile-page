@@ -1,28 +1,51 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 export default function AddExperience({
   setIsAddingExperience,
   experiences,
-  setExperiences
+  setExperiences,
 }) {
   const [startYearInput, setStartYearInput] = useState("2023");
   const [endYearInput, setEndYearInput] = useState("2024");
   const [jobRoleInput, setJobRoleInput] = useState("Full Stack developer");
   const [jobTypeInput, setJobTypeInput] = useState("Internship");
   const [companyNameInput, setCompanyNameInput] = useState("Google");
+  const { id } = useParams();
 
-  const handleExperienceSave = () => {
+  const handleExperienceSave = async () => {
     const newExperience = {
       startYear: startYearInput,
       endYear: endYearInput,
       jobRole: jobRoleInput,
       jobType: jobTypeInput,
-      companyName: companyNameInput
+      companyName: companyNameInput,
     };
 
-    setExperiences([newExperience,...experiences])
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/experience`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: id,
+          startYear: startYearInput,
+          endYear: endYearInput,
+          jobRole: jobRoleInput,
+          jobType: jobTypeInput,
+          companyName: companyNameInput,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setExperiences([newExperience, ...experiences]);
     resetInputs();
     setIsAddingExperience(false);
   };
