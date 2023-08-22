@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 
 export default function EditEducation({
@@ -11,20 +10,40 @@ export default function EditEducation({
   const [university, setUniversity] = useState(education.university);
   const [degree, setDegree] = useState(education.degree);
   const [year, setYear] = useState(education.year);
-  const [description, setDescription] = useState(education.description);
+  const [description, setDescription] = useState(education.desc);
+  console.log(education);
 
-  const handleAddEducation = () => {
+  const handleAddEducation = async () => {
     const newEducation = {
       university,
       degree,
       year,
-      description,
+      desc: description,
     };
+    try {
+      const response = await fetch("http://localhost:3000/api/education", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: education?._id,
+          university,
+          degree,
+          year,
+          desc: description,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
-    const updatedEducation = educations.map((education) =>
-      education === education ? newEducation : education
+    const updatedEducation = educations.map((edu) =>
+      edu === education ? newEducation : edu
     );
-
     setEducations(updatedEducation);
     setUniversity("");
     setDegree("");
@@ -33,7 +52,23 @@ export default function EditEducation({
     setIsEditingEducation(false);
   };
 
-  const handleRemoveEducation = () => {
+  const handleRemoveEducation = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/education", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: education?._id,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+      }
+    } catch (error) {
+      console.log(error);
+    }
     const updatedEducations = educations.filter((edu) => edu !== education);
     setEducations(updatedEducations);
     setIsEditingEducation(false);

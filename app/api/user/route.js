@@ -49,3 +49,16 @@ export async function PUT(request) {
     return NextResponse.json({ message: "not ok" }, { status: 404 });
   }
 }
+
+export async function PATCH(request){
+  const {id} = await request.json();
+  await connectMongoDb();
+  
+  try {
+    const userDocInfo = await UserModel.findById(id);
+    return NextResponse.json(userDocInfo);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ message: "server error" }, { status: 404 });
+  }
+}

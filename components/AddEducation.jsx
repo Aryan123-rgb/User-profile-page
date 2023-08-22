@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 export default function AddEducation({
@@ -11,14 +12,35 @@ export default function AddEducation({
   const [degree, setDegree] = useState("");
   const [year, setYear] = useState("");
   const [description, setDescription] = useState("");
+  const { id } = useParams();
 
-  const handleAddEducation = () => {
+  const handleAddEducation = async () => {
     const newEducation = {
       university,
       degree,
       year,
-      description,
+      desc:description,
     };
+    try {
+      const response = await fetch("http://localhost:3000/api/education", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: id,
+          university,
+          degree,
+          year,
+          desc: description,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+      }
+    } catch (error) {
+      console.log(error);
+    }
     setEducations([newEducation, ...educations]);
     setUniversity("");
     setDegree("");

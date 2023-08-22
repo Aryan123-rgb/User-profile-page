@@ -1,19 +1,73 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EditSkills from "./EditSkills";
 import EditExperience from "./EditExperience";
 import AddExperience from "./AddExperience";
 import AddEducation from "./AddEducation";
 import EditEducation from "./EditEducation";
+import { useParams } from "next/navigation";
 
 export default function Profile() {
-  const [name, setName] = useState("Vishnu Swaroop");
-  const [email, setEmail] = useState("vishnu@oruphones.com");
-  const [phone, setPhone] = useState("+91 8955225575");
-  const [about, setAbout] = useState(
-    `Lorem ipsum dolor sit amet consectetur adipisicing elit.Voluptates ipsa dolore maxime quae unde eos, molestias quisquam quasi minima tempore fugit, autem fugiat, quidem repellendus explicabo vitae doloribus quas expedita?`
-  );
+  const { id } = useParams();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [about, setAbout] = useState("");
+  const [skills, setskills] = useState([]);
+  const [certifications, setCertifications] = useState("");
+  const [educations, setEducations] = useState([]);
+
+  const getUserInfo = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/user", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+        cache: "no-cache",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setName(data?.name);
+        setEmail(data?.email);
+        setPhone(data?.phone);
+        setAbout(data?.about);
+        setskills(data?.skills);
+        setCertifications(data?.certifications);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  const getEducation = async() => {
+    try {
+      const response = await fetch("http://localhost:3000/api/education", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+        cache: "no-cache",
+      });
+      if(response.ok){
+        const data = await response.json();
+
+        setEducations(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getUserInfo();
+    getEducation();
+  }, []);
+
   const [isEditingSkills, setIsEditingSkills] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isAddingExperience, setIsAddingExperience] = useState(false);
@@ -28,7 +82,7 @@ export default function Profile() {
 
   const handleEditBio = (field) => {
     if (field === "name") {
-      setEditingField("Your Name");
+      setEditingField("Name");
       setEditingFieldValue(name);
     } else if (field === "email") {
       setEditingField("Email");
@@ -39,12 +93,15 @@ export default function Profile() {
     } else if (field === "about") {
       setEditingField("About");
       setEditingFieldValue(about);
+    } else if (field === "certifications") {
+      setEditingField("Certifications");
+      setEditingFieldValue(certifications);
     }
     setIsEditing(true);
   };
 
-  const handleSave = (field) => {
-    if (field === "Your Name") {
+  const handleSave = async (field) => {
+    if (field === "Name") {
       setName(editingfieldValue);
     } else if (field === "Email") {
       setEmail(editingfieldValue);
@@ -52,24 +109,32 @@ export default function Profile() {
       setPhone(editingfieldValue);
     } else if (field === "About") {
       setAbout(editingfieldValue);
+    } else if (field === "Certifications") {
+      setCertifications(editingfieldValue);
     }
+    try {
+      const response = await fetch("http://localhost:3000/api/edit", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          field: field.toLowerCase(),
+          value: editingfieldValue,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+      } else {
+        console.error("Failed to update field");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+
     setIsEditing(false);
   };
-
-  const [skills, setskills] = useState([
-    "Javascript",
-    "ReactJS",
-    "NodeJS",
-    "TypeScript",
-    "Java",
-    "Python",
-    "C++",
-    "HTML",
-    "CSS",
-    "ExpressJS",
-    "Mongoose",
-    "MongoDB",
-  ]);
 
   const [experiences, setExperiences] = useState([
     {
@@ -92,16 +157,6 @@ export default function Profile() {
     setEditingExperience(experience);
     setIsEditingExperience(true);
   };
-
-  const [educations, setEducations] = useState([
-    {
-      university: "IIIT HYDERABAD",
-      degree: "Bachelor of Computer Science",
-      year: "2015-2019",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. In modi quam doloremque, ipsam nesciunt minima, ducimus nobis sunt alias iure et culpa blanditiis autem cupiditate laborum pariatur ratione rerum dolores!",
-    },
-  ]);
 
   const handleEditEducation = (education) => {
     setEditingEducation(education);
@@ -163,7 +218,7 @@ export default function Profile() {
           {/* About Me */}
           <div className="bg-white p-6 rounded-lg border-2 border-[#dfe6e9] relative mb-6 mt-6">
             <h3 className="text-3xl font-semibold mb-2">
-              About <span className="text-[#341f97]">Nishant</span>{" "}
+              About <span className="text-[#341f97]">{name.split(" ")[0]}</span>{" "}
             </h3>
             <p className="text-gray-600 mt-[2rem] text-[18px] w-full">
               {" "}
@@ -241,11 +296,12 @@ export default function Profile() {
           <div className="bg-white border-2 border-[#dfe6e9] p-4 rounded-lg relative mb-6">
             <h3 className="text-2xl font-semibold mb-2">Certifications</h3>
             <ul className="text-gray-600">
-              <li>Certified React Developer</li>
-              <li>JavaScript Fundamentals</li>
-              {/* ... Add more certifications */}
+              <li> {certifications} </li>
             </ul>
-            <button className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]">
+            <button
+              className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-8 rounded-[2rem]"
+              onClick={() => handleEditBio("certifications")}
+            >
               Edit
             </button>
           </div>
@@ -310,7 +366,7 @@ export default function Profile() {
                     {education.year}
                   </span>{" "}
                 </div>
-                <p className="text-gray-600 mt-2">{education.description}</p>
+                <p className="text-gray-600 mt-2">{education.desc}</p>
                 <button
                   className="absolute right-4 top-4 text-black bg-[#ecf0f1] py-2 px-4 rounded-[2rem]"
                   onClick={() => handleEditEducation(education)}
@@ -331,7 +387,7 @@ export default function Profile() {
               value={editingfieldValue}
               onChange={(e) => setEditingFieldValue(e.target.value)}
               className="border-2 border-gray-300 p-2 mb-8 rounded-lg w-full resize-none"
-              rows={editingfield === "About" ? "8" : "1"}
+              rows={editingfield === "About" || "Certifications" ? "8" : "1"}
             />
             <div className="flex justify-between">
               <button
